@@ -34,3 +34,33 @@ class Display():
     status = 1
     generalframe = Frame(master=window, bg='limegreen')
     generalframe.pack()
+
+
+class Comand(Display):
+    """
+    This is class for work is command button aplication
+    """
+    pass
+
+
+class Buttons(Display):
+    """
+    This is class do it work button
+    """
+    @staticmethod
+    def button_start():
+        button_start = Button(Display.fonelabel, text='D', fg='green', font=('Roboto Bold', 16)
+                              )
+        button_start.place(x=330, y=10)
+
+    @staticmethod
+    def button_stop():
+        button_stop = Button(Display.fonelabel, text='S', fg='red', font=('Roboto Bold', 16)
+                             )
+        button_stop.place(x=330, y=60)
+
+    @staticmethod
+    def button_null():
+        button_null = Button(Display.fonelabel, text='0', fg='black', font=('Roboto Bold', 16)
+                             )
+        button_null.place(x=330, y=110)
