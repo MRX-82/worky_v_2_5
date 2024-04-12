@@ -15,3 +15,10 @@ def integer_to_string(counter, number):
     elif testing_counter == number:
         new_counter = counter
         return new_counter
+
+def string_to_integer(counter):
+    """
+    This function do it translate string to integer for work aplication "worky"
+    """
+    new_counter = str(counter)
+    return new_counter

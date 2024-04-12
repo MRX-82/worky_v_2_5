@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageDraw, ImageFont, ImageTk
 import worky_data_base as wdb
+import function as func
 
 """
 This is class for worky
@@ -16,8 +17,8 @@ class Display():
     worky = wdb.Counter(Login, counter_dst, counter_odo)
     display_data = worky.download()
     Login = display_data[0][0]
-    counter_dst = display_data[0][1]
-    counter_odo = display_data[0][2]
+    counter_dst = func.integer_to_string(display_data[0][1], 5)
+    counter_odo = func.integer_to_string(display_data[0][2], 8)
     window = Tk()
     window.title('Воркометр 2.5')
     window.geometry('372x180')
