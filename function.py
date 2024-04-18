@@ -20,5 +20,5 @@ def string_to_integer(counter):
     """
     This function do it translate string to integer for work aplication "worky"
     """
-    new_counter = str(counter)
+    new_counter = int(counter)
     return new_counter

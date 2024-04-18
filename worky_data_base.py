@@ -31,7 +31,7 @@ class Counter:
         connect_data_base.close()
 
     def download(self):
-        cursor.execute('SELECT * FROM Users')
+        cursor.execute('SELECT * FROM Users WHERE Login = ?',('Shock',))
         counter = cursor.fetchall()
         return counter
 

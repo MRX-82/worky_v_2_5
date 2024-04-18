@@ -1,7 +1,10 @@
 from tkinter import *
+import time
+import datetime
 from PIL import Image, ImageDraw, ImageFont, ImageTk
 import worky_data_base as wdb
 import function as func
+
 
 """
 This is class for worky
@@ -14,11 +17,6 @@ class Display():
     Login = 'Shock'
     counter_dst = 12345
     counter_odo = 12345678
-    worky = wdb.Counter(Login, counter_dst, counter_odo)
-    display_data = worky.download()
-    Login = display_data[0][0]
-    counter_dst = func.integer_to_string(display_data[0][1], 5)
-    counter_odo = func.integer_to_string(display_data[0][2], 8)
     window = Tk()
     window.title('Воркометр 2.5')
     window.geometry('372x180')
@@ -49,7 +47,30 @@ class Comand(Display):
     """
     This is class for work is command button aplication
     """
-    pass
+    @staticmethod
+    def command_button_start_1():
+        Display.status = 0
+
+    @staticmethod
+    def command_button_start():
+        while True:
+
+            inte_odometr = func.string_to_integer(Display.textodometr)
+            inte_distance = func.string_to_integer(Display.textdistance)
+            while Display.status == 0:
+                inte_odometr += 1
+                inte_distance += 1
+                str_odometr = func.integer_to_string(inte_odometr, 8)
+                str_distance = func.integer_to_string(inte_distance, 5)
+                Display.odometrlabel.configure(text=str_odometr[0:6])
+                Display.odometrlabel.place(x=156, y=108)
+                Display.distancelabel.configure(text=str_distance[0:3])
+                Display.distancelabel.place(x=166, y=67)
+                Display.distancefloatlabel.configure(text=str_distance[3])
+                Display.distancefloatlabel.place(x=195, y=67)
+                inte_odometr = func.string_to_integer(str_odometr)
+                inte_distance = func.string_to_integer(str_distance)
+                time.sleep(1)
 
 
 class Buttons(Display):
@@ -58,18 +79,22 @@ class Buttons(Display):
     """
     @staticmethod
     def button_start():
-        button_start = Button(Display.fonelabel, text='D', fg='green', font=('Roboto Bold', 16)
+        button_start = Button(
+            Display.fonelabel, text='D', fg='green', font=('Roboto Bold', 16),
+            command=Comand.command_button_start_1
                               )
         button_start.place(x=330, y=10)
 
     @staticmethod
     def button_stop():
-        button_stop = Button(Display.fonelabel, text='S', fg='red', font=('Roboto Bold', 16)
+        button_stop = Button(
+            Display.fonelabel, text='S', fg='red', font=('Roboto Bold', 16)
                              )
         button_stop.place(x=330, y=60)
 
     @staticmethod
     def button_null():
-        button_null = Button(Display.fonelabel, text='0', fg='black', font=('Roboto Bold', 16)
+        button_null = Button(
+            Display.fonelabel, text='0', fg='black', font=('Roboto Bold', 16)
                              )
         button_null.place(x=330, y=110)
