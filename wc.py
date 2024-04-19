@@ -17,6 +17,11 @@ class Display():
     Login = 'Shock'
     counter_dst = 12345
     counter_odo = 12345678
+    counter_data = wdb.Counter('Shock', 0, 0)
+    counter = counter_data.download()
+    counter_data.close()
+    counter_1 = func.repack_download_counter(counter)
+    Login, counter_odo, counter_dst = func.repack_download_counter(counter)
     window = Tk()
     window.title('Воркометр 2.5')
     window.geometry('372x180')
@@ -50,14 +55,23 @@ class Comand(Display):
     @staticmethod
     def command_button_start_1():
         Display.status = 0
+        #Display.indication.configure(text='DRIVE', fg='green')
 
     @staticmethod
     def command_button_start():
         while True:
+            Display.indication.configure(text='STOP', fg='red')
 
-            inte_odometr = func.string_to_integer(Display.textodometr)
-            inte_distance = func.string_to_integer(Display.textdistance)
+            counter_data = wdb.Counter('Shock', 0, 0)
+            counter = counter_data.download()
+            counter_data.close()
+            Login, counter_odo, counter_dst = func.repack_download_counter(counter)
+            inte_odometr = func.string_to_integer(counter_odo)
+            inte_distance = func.string_to_integer(counter_dst)
+            #Display.textlogin.configure(text=Login)
+
             while Display.status == 0:
+                Display.indication.configure(text='DRIVE', fg='green')
                 inte_odometr += 1
                 inte_distance += 1
                 str_odometr = func.integer_to_string(inte_odometr, 8)
@@ -70,7 +84,17 @@ class Comand(Display):
                 Display.distancefloatlabel.place(x=195, y=67)
                 inte_odometr = func.string_to_integer(str_odometr)
                 inte_distance = func.string_to_integer(str_distance)
+
                 time.sleep(1)
+
+
+    @staticmethod
+    def command_button_stop():
+        Display.status = 1
+        Display.indication.configure(text='STOP', fg='red')
+
+
+
 
 
 class Buttons(Display):
@@ -85,10 +109,12 @@ class Buttons(Display):
                               )
         button_start.place(x=330, y=10)
 
+
     @staticmethod
     def button_stop():
         button_stop = Button(
-            Display.fonelabel, text='S', fg='red', font=('Roboto Bold', 16)
+            Display.fonelabel, text='S', fg='red', font=('Roboto Bold', 16),
+            command=Comand.command_button_stop
                              )
         button_stop.place(x=330, y=60)
 

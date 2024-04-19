@@ -22,3 +22,10 @@ def string_to_integer(counter):
     """
     new_counter = int(counter)
     return new_counter
+
+def repack_download_counter(pack_counter):
+    """
+    This is function for repacking download unit
+    """
+    Login, counter_odo, counter_dst = pack_counter[0][0], pack_counter[0][1], pack_counter[0][2]
+    return Login, counter_odo, counter_dst
