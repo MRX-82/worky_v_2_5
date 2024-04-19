@@ -82,6 +82,9 @@ class Comand(Display):
                 Display.distancelabel.place(x=166, y=67)
                 Display.distancefloatlabel.configure(text=str_distance[3])
                 Display.distancefloatlabel.place(x=195, y=67)
+                counter_data_1 = wdb.Counter(Display.Login, inte_odometr, inte_distance)
+                counter_data_1.update()
+                counter_data_1.close()
                 inte_odometr = func.string_to_integer(str_odometr)
                 inte_distance = func.string_to_integer(str_distance)
 

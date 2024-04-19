@@ -53,7 +53,7 @@ class Counter:
             'UPDATE Users SET counter_dst=?, counter_odo=? WHERE Login=?',
             (self.counter_dst, self.counter_odo, 'Shock')
         )
-        connect_data_base.commit()
+        self.connect_data_base.commit()
         #connect_data_base.close()
 
     def close(self):
