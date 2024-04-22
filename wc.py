@@ -39,7 +39,7 @@ class Display():
     distancelabel = Label(fonelabel, text=textdistance[0:3], font=('Roboto Bold', 12))
     distancelabel.place(x=166, y=67)
     distancefloatlabel = Label(fonelabel, text=textdistance[3], font=('Roboto Bold', 12))
-    distancefloatlabel.place(x=195, y=67)
+    distancefloatlabel.place(x=196, y=67)
     distancefloatlabel.configure(fg='red')
     indication = Label(fonelabel, text='Stop', fg='red', bg='black', font=('Roboto Bold', 20))
     indication.place(x=3, y=130)
@@ -55,39 +55,41 @@ class Comand(Display):
     @staticmethod
     def command_button_start_1():
         Display.status = 0
-        #Display.indication.configure(text='DRIVE', fg='green')
+
 
     @staticmethod
     def command_button_start():
         while True:
             Display.indication.configure(text='STOP', fg='red')
-
             counter_data = wdb.Counter('Shock', 0, 0)
             counter = counter_data.download()
             counter_data.close()
-            Login, counter_odo, counter_dst = func.repack_download_counter(counter)
+            Login, counter_dst, counter_odo  = func.repack_download_counter(counter)
+            counter_odo = func.integer_to_string(counter_odo, 8)
+            counter_dst = func.integer_to_string(counter_dst, 5)
+            Display.odometrlabel.configure(text=counter_odo[0:6])
+            Display.distancelabel.configure(text=counter_dst[0:3])
+            Display.distancefloatlabel.configure(text=counter_dst[3])
             inte_odometr = func.string_to_integer(counter_odo)
             inte_distance = func.string_to_integer(counter_dst)
-            #Display.textlogin.configure(text=Login)
-
+            Display.loginlabel.configure(text=Login)
             while Display.status == 0:
                 Display.indication.configure(text='DRIVE', fg='green')
+                Display.loginlabel.configure(text=Login)
                 inte_odometr += 1
                 inte_distance += 1
+                inte_distance = func.big_number(inte_distance, 100000)
+                inte_odometr = func.big_number(inte_odometr, 100000000)
                 str_odometr = func.integer_to_string(inte_odometr, 8)
                 str_distance = func.integer_to_string(inte_distance, 5)
                 Display.odometrlabel.configure(text=str_odometr[0:6])
-                Display.odometrlabel.place(x=156, y=108)
                 Display.distancelabel.configure(text=str_distance[0:3])
-                Display.distancelabel.place(x=166, y=67)
                 Display.distancefloatlabel.configure(text=str_distance[3])
-                Display.distancefloatlabel.place(x=195, y=67)
-                counter_data_1 = wdb.Counter(Display.Login, inte_odometr, inte_distance)
+                counter_data_1 = wdb.Counter(Display.Login, inte_distance, inte_odometr)
                 counter_data_1.update()
                 counter_data_1.close()
                 inte_odometr = func.string_to_integer(str_odometr)
                 inte_distance = func.string_to_integer(str_distance)
-
                 time.sleep(1)
 
 
@@ -95,9 +97,24 @@ class Comand(Display):
     def command_button_stop():
         Display.status = 1
         Display.indication.configure(text='STOP', fg='red')
+        counter_data = wdb.Counter('Shock', 0, 0)
+        counter = counter_data.download()
+        counter_data.close()
+        Login, counter_dst, counter_odo = func.repack_download_counter(counter)
+        counter_data_reserve = wdb.Counter('Shock+', counter_dst, counter_odo)
+        counter_data_reserve.update()
+        counter_data_reserve.close()
 
 
-
+    @staticmethod
+    def command_button_null():
+        counter_data = wdb.Counter('Shock', 0, 0)
+        counter = counter_data.download()
+        counter_data.close()
+        Login, counter_dst, counter_odo = func.repack_download_counter(counter)
+        counter_data_new = wdb.Counter('Shock', 0, counter_odo)
+        counter_data_new.update()
+        counter_data_new.close()
 
 
 class Buttons(Display):
@@ -124,6 +141,7 @@ class Buttons(Display):
     @staticmethod
     def button_null():
         button_null = Button(
-            Display.fonelabel, text='0', fg='black', font=('Roboto Bold', 16)
+            Display.fonelabel, text='0', fg='black', font=('Roboto Bold', 16),
+            command=Comand.command_button_null
                              )
         button_null.place(x=330, y=110)

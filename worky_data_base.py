@@ -51,7 +51,7 @@ class Counter:
     def update(self):
         self.cursor.execute(
             'UPDATE Users SET counter_dst=?, counter_odo=? WHERE Login=?',
-            (self.counter_dst, self.counter_odo, 'Shock')
+            (self.counter_dst, self.counter_odo, self.Login)
         )
         self.connect_data_base.commit()
         #connect_data_base.close()
