@@ -42,7 +42,7 @@ class Counter:
         #connect_data_base.close()
 
     def download(self):
-        self.cursor.execute('SELECT * FROM Users WHERE Login = ?',('Shock',))
+        self.cursor.execute('SELECT * FROM Users WHERE Login = ?',(self.Login,))
         counter = self.cursor.fetchall()
         #connect_data_base.commit()
         #connect_data_base.close()

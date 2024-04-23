@@ -37,3 +37,8 @@ def big_number(counter, n):
     else:
         return counter
 
+def reserv_load_save(Login):
+    n = len(Login)
+    Login = Login[0:n-1]
+    return Login
+

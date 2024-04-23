@@ -30,8 +30,8 @@ class Display():
         (Image.open('d:\Python\Desktop\worky_v_2_5\emplate\media\image\worky.jpg'))
     fonelabel = Label(window, image=foneimage)
     fonelabel.place(x=0, y=0)
-    textodometr = str(counter_odo)
-    textdistance = str(counter_dst)
+    textodometr = func.integer_to_string(counter_odo, 8)
+    textdistance = func.integer_to_string(counter_dst, 5)
     textlogin = Login
     loginlabel = Label(fonelabel, text=textlogin, font=('Roboto Bold', 12))
     loginlabel.place(x=5, y=100)
@@ -115,6 +115,22 @@ class Comand(Display):
         counter_data_new.close()
 
     @staticmethod
+    def reserve_load():
+        counter_data = wdb.Counter('Shock', 0, 0)
+        counter = counter_data.download()
+        #counter_data.close()
+        Login, counter_dst, counter_odo = func.repack_download_counter(counter)
+        Login = Login+'+'
+        counter_data_new = wdb.Counter(Login, counter_dst, counter_odo)
+        counter_data = counter_data_new.download()
+        counter_data_new.close()
+        Login, counter_dst, counter_odo = func.repack_download_counter(counter_data)
+        Login = func.reserv_load_save(Login)
+        counter_data_new_save = wdb.Counter(Login, counter_dst, counter_odo)
+        counter_data_new_save.update()
+        counter_data_new_save.close()
+
+    @staticmethod
     def clickexit():
         Display.window.destroy()
 
@@ -157,6 +173,7 @@ class MenuSettings(Display):
     new_item.add_command(label='Drive', command=Comand.command_button_start_1)
     new_item.add_command(label='Stop', command=Comand.command_button_stop)
     new_item.add_command(label='Null', command=Comand.command_button_null)
+    new_item.add_command(label='Reserve Load', command=Comand.reserve_load)
     new_item.add_command(label='Exit', command=Comand.clickexit)
     menu.add_cascade(label='file', menu=new_item)
     Display.window.config(menu=menu)
