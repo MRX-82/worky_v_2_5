@@ -4,6 +4,7 @@ import datetime
 from PIL import Image, ImageDraw, ImageFont, ImageTk
 import worky_data_base as wdb
 import function as func
+from tkinter import Menu
 
 
 """
@@ -56,7 +57,6 @@ class Comand(Display):
     def command_button_start_1():
         Display.status = 0
 
-
     @staticmethod
     def command_button_start():
         while True:
@@ -92,7 +92,6 @@ class Comand(Display):
                 inte_distance = func.string_to_integer(str_distance)
                 time.sleep(1)
 
-
     @staticmethod
     def command_button_stop():
         Display.status = 1
@@ -105,7 +104,6 @@ class Comand(Display):
         counter_data_reserve.update()
         counter_data_reserve.close()
 
-
     @staticmethod
     def command_button_null():
         counter_data = wdb.Counter('Shock', 0, 0)
@@ -115,6 +113,10 @@ class Comand(Display):
         counter_data_new = wdb.Counter('Shock', 0, counter_odo)
         counter_data_new.update()
         counter_data_new.close()
+
+    @staticmethod
+    def clickexit():
+        Display.window.destroy()
 
 
 class Buttons(Display):
@@ -128,7 +130,6 @@ class Buttons(Display):
             command=Comand.command_button_start_1
                               )
         button_start.place(x=330, y=10)
-
 
     @staticmethod
     def button_stop():
@@ -145,3 +146,17 @@ class Buttons(Display):
             command=Comand.command_button_null
                              )
         button_null.place(x=330, y=110)
+
+
+class MenuSettings(Display):
+    """
+    This is class for menu worky
+    """
+    menu = Menu(Display.fonelabel)
+    new_item = Menu(menu, tearoff=0)
+    new_item.add_command(label='Drive', command=Comand.command_button_start_1)
+    new_item.add_command(label='Stop', command=Comand.command_button_stop)
+    new_item.add_command(label='Null', command=Comand.command_button_null)
+    new_item.add_command(label='Exit', command=Comand.clickexit)
+    menu.add_cascade(label='file', menu=new_item)
+    Display.window.config(menu=menu)
