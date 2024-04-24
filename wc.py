@@ -22,7 +22,7 @@ class Display():
     counter = counter_data.download()
     counter_data.close()
     counter_1 = func.repack_download_counter(counter)
-    Login, counter_odo, counter_dst = func.repack_download_counter(counter)
+    Login, counter_dst, counter_odo = func.repack_download_counter(counter)
     window = Tk()
     window.title('Воркометр 2.5')
     window.geometry('372x180')
@@ -65,6 +65,7 @@ class Comand(Display):
             counter = counter_data.download()
             counter_data.close()
             Login, counter_dst, counter_odo  = func.repack_download_counter(counter)
+            Display.Login = Login
             counter_odo = func.integer_to_string(counter_odo, 8)
             counter_dst = func.integer_to_string(counter_dst, 5)
             Display.odometrlabel.configure(text=counter_odo[0:6])
@@ -100,7 +101,8 @@ class Comand(Display):
         counter = counter_data.download()
         counter_data.close()
         Login, counter_dst, counter_odo = func.repack_download_counter(counter)
-        counter_data_reserve = wdb.Counter('Shock+', counter_dst, counter_odo)
+        Login = Login+'+'
+        counter_data_reserve = wdb.Counter(Login, counter_dst, counter_odo)
         counter_data_reserve.update()
         counter_data_reserve.close()
 
@@ -110,7 +112,7 @@ class Comand(Display):
         counter = counter_data.download()
         counter_data.close()
         Login, counter_dst, counter_odo = func.repack_download_counter(counter)
-        counter_data_new = wdb.Counter('Shock', 0, counter_odo)
+        counter_data_new = wdb.Counter(Login, 0, counter_odo)
         counter_data_new.update()
         counter_data_new.close()
 
