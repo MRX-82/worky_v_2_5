@@ -27,7 +27,7 @@ def repack_download_counter(pack_counter):
     """
     This is function for repacking download unit
     """
-    Login, counter_odo, counter_dst = pack_counter[0][0], pack_counter[0][1], pack_counter[0][2]
+    Login, counter_odo, counter_dst = pack_counter[0][1], pack_counter[0][2], pack_counter[0][3]
     return Login, counter_odo, counter_dst
 
 def big_number(counter, n):

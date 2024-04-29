@@ -42,24 +42,24 @@ class Counter:
             )
         else:
             self.cursor.execute(
-                'UPDATE Users SET counter_dst=?, counter_odo=? WHERE User_id=?',
-                (self.counter_dst, self.counter_odo, self.Login, record_id)
+                'UPDATE Users SET Login=?, counter_dst=?, counter_odo=? WHERE id=?',
+                (self.Login, self.counter_dst, self.counter_odo, record_id)
             )
         self.connect_data_base.commit()
         #connect_data_base.close()
 
 
-    def download(self):
-        self.cursor.execute('SELECT * FROM Users WHERE Login = ?',(self.Login,))
+    def download(self, record_id):
+        self.cursor.execute('SELECT * FROM Users WHERE id=?',(record_id,))
         counter = self.cursor.fetchall()
         #connect_data_base.commit()
         #connect_data_base.close()
         return counter
 
-    def update(self):
+    def update(self, record_id):
         self.cursor.execute(
-            'UPDATE Users SET counter_dst=?, counter_odo=? WHERE Login=?',
-            (self.counter_dst, self.counter_odo, self.Login)
+            'UPDATE Users SET Login=?, counter_dst=?, counter_odo=? WHERE id=?',
+            (self.Login, self.counter_dst, self.counter_odo, record_id)
         )
         self.connect_data_base.commit()
         #connect_data_base.close()
