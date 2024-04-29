@@ -35,15 +35,6 @@ class Counter:
         ''')
 
     def save(self, record_id=None):
-        # Получаем информацию о структуре таблицы Users
-        self.cursor.execute("PRAGMA table_info(Users)")
-        table_info = self.cursor.fetchall()
-
-        # Выводим информацию о структуре таблицы на печать
-        print("Структура таблицы Users:")
-        for row in table_info:
-            print(row)
-        """
         if record_id is None:
             self.cursor.execute(
                 'INSERT INTO Users(Login, counter_dst, counter_odo) VALUES(?, ?, ?)',
@@ -56,7 +47,7 @@ class Counter:
             )
         self.connect_data_base.commit()
         #connect_data_base.close()
-        """
+
 
     def download(self):
         self.cursor.execute('SELECT * FROM Users WHERE Login = ?',(self.Login,))

@@ -15,10 +15,12 @@ class Display():
     """
     This is basic class of Worky, which displays Worky's Display
     """
-    Login = 'Shock'
+    Login = 'None'
     counter_dst = 12345
     counter_odo = 12345678
-    counter_data = wdb.Counter('Shock', 0, 0)
+    counter_data = wdb.Counter('None', 0, 0)
+    counter_data.save()
+    counter_data.close()
     counter = counter_data.download()
     counter_data.close()
     counter_1 = func.repack_download_counter(counter)
