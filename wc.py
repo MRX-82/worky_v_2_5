@@ -120,7 +120,6 @@ class Comand(Display):
     def reserve_load():
         counter_data = wdb.Counter('Shock', 0, 0)
         counter = counter_data.download()
-        #counter_data.close()
         Login, counter_dst, counter_odo = func.repack_download_counter(counter)
         Login = Login+'+'
         counter_data_new = wdb.Counter(Login, counter_dst, counter_odo)
@@ -131,6 +130,23 @@ class Comand(Display):
         counter_data_new_save = wdb.Counter(Login, counter_dst, counter_odo)
         counter_data_new_save.update()
         counter_data_new_save.close()
+
+    @staticmethod
+    def enter_user_name():
+        user_name_txt = Entry(Display.window, width=10)
+        user_name_txt.place(x=10, y=10)
+
+        def get_user_input():
+            Login = user_name_txt.get()
+            print(Login)
+            user_name_txt.place_forget()
+            submit_button.place_forget()
+            counter = wdb.Counter(Login, 0, 0)
+            counter.save()#(record_id=1)
+            counter.close()
+        submit_button = Button(Display.window, text='Submit', command = get_user_input)
+        submit_button.place(x=10, y=40)
+
 
     @staticmethod
     def clickexit():
@@ -176,6 +192,7 @@ class MenuSettings(Display):
     new_item.add_command(label='Stop', command=Comand.command_button_stop)
     new_item.add_command(label='Null', command=Comand.command_button_null)
     new_item.add_command(label='Reserve Load', command=Comand.reserve_load)
+    new_item.add_command(label='Enter Name', command=Comand.enter_user_name)
     new_item.add_command(label='Exit', command=Comand.clickexit)
     menu.add_cascade(label='file', menu=new_item)
     Display.window.config(menu=menu)
