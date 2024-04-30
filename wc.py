@@ -19,8 +19,6 @@ class Display():
     counter_dst = 12345
     counter_odo = 12345678
     counter_data = wdb.Counter('None', 0, 0)
-    #counter_data.save()
-    #counter_data.close()
     counter = counter_data.download(1)
     counter_data.close()
     counter_1 = func.repack_download_counter(counter)
@@ -103,7 +101,6 @@ class Comand(Display):
         counter = counter_data.download(1)
         counter_data.close()
         Login, counter_dst, counter_odo = func.repack_download_counter(counter)
-        #Login = Login+'+'
         counter_data_reserve = wdb.Counter(Login, counter_dst, counter_odo)
         counter_data_reserve.update(2)
         counter_data_reserve.close()
@@ -124,16 +121,9 @@ class Comand(Display):
         counter = counter_data.download(2)
         counter_data.close()
         Login, counter_dst, counter_odo = func.repack_download_counter(counter)
-        #Login = Login+'+'
-        #counter_data_new = wdb.Counter(Login, counter_dst, counter_odo)
-        #counter_data = counter_data_new.download()
-        #counter_data_new.close()
-        #Login, counter_dst, counter_odo = func.repack_download_counter(counter_data)
-        #Login = func.reserv_load_save(Login)
         counter_data_new = wdb.Counter(Login, counter_dst, counter_odo)
         counter_data_new.save(1)
         counter_data_new.close()
-
 
     @staticmethod
     def enter_user_name():
@@ -151,7 +141,6 @@ class Comand(Display):
             counter.close()
         submit_button = Button(Display.window, text='Submit', command = get_user_input)
         submit_button.place(x=10, y=40)
-
 
     @staticmethod
     def clickexit():

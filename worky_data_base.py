@@ -4,15 +4,6 @@ Worky data base
 
 import sqlite3 as sql
 
-#connect_data_base = sql.connect('worky_DataBase.db')
-#cursor = connect_data_base.cursor()
-#cursor.execute('''
-#CREATE TABLE IF NOT EXISTS Users (
-#Login TEXT NOT NULL,
-#counter_dst INTEGER,
-#counter_odo INTEGER
-#)
-#''')
 
 class Counter:
     """
@@ -24,7 +15,6 @@ class Counter:
         self.counter_odo = counter_odo
         self.connect_data_base = sql.connect('worky_DataBase.db')
         self.cursor = self.connect_data_base.cursor()
-
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS Users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,8 +36,6 @@ class Counter:
                 (self.Login, self.counter_dst, self.counter_odo, record_id)
             )
         self.connect_data_base.commit()
-        #connect_data_base.close()
-
 
     def download(self, record_id):
         self.cursor.execute('SELECT * FROM Users WHERE id=?',(record_id,))
@@ -62,7 +50,6 @@ class Counter:
             (self.Login, self.counter_dst, self.counter_odo, record_id)
         )
         self.connect_data_base.commit()
-        #connect_data_base.close()
 
     def close(self):
         self.connect_data_base.close()
